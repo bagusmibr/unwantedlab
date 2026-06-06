@@ -1,76 +1,78 @@
 # UNWANTED LAB (TikTok Video Processor)
 
-UNWANTED LAB adalah alat untuk memproses video agar mendapatkan hasil optimal saat di-upload ke TikTok dengan mem-bypass kompresi TikTok 120fps.
+![UNWANTED LAB Preview](./preview.png)
 
-## Cara Kerja & Proses Aplikasi
+UNWANTED LAB is an advanced video processing tool designed to optimize videos for TikTok by bypassing its aggressive 120fps ingest compression.
 
-Aplikasi ini menggunakan perpaduan pemadatan kualitas tinggi dan trik rekayasa metadata agar TikTok memberikan *bitrate* (kualitas) tertinggi pada video Anda.
+## How it Works & Features
 
-1. **Siapkan Video**: Siapkan video mentahan (sebaiknya sudah 60fps) yang sudah Anda edit.
-2. **Pilih Mode**:
-   - **HQ_REENCODE**: Melakukan encode ulang (libx264 CRF 18) untuk memadatkan *size* tanpa kehilangan kualitas, sebelum di-upload.
-   - **FAST_TRICK**: Menyuntikkan trik metadata khusus ke dalam video secara instan tanpa re-encode. Ini berfungsi mengelabui sistem Ingest TikTok seolah video ber-framerate 120fps.
-   - **COMBO_MAX**: Menjalankan HQ_REENCODE terlebih dahulu untuk kompresi maksimal, lalu otomatis menyuntikkan FAST_TRICK pada hasil outputnya. (Sangat Direkomendasikan)
-3. **Eksekusi**: Anda cukup melakukan *Drag & Drop* video ke dalam area aplikasi. Aplikasi akan memproses video secara otomatis dan menampilkan log prosesnya di layar.
+This application uses a combination of high-quality re-encoding and metadata engineering tricks to ensure TikTok allocates the highest possible bitrate to your video.
 
-## Apa yang Terjadi Setelah Selesai?
+1. **Prepare your Video**: Edit your video as usual (60fps is highly recommended).
+2. **Select a Mode**:
+   - **HQ_REENCODE**: Performs a pure re-encode using `libx264` (CRF 18) to heavily compress the file size without sacrificing any visual quality, preparing it perfectly for upload.
+   - **FAST_TRICK**: Instantly injects a specialized metadata trick into your video without re-encoding. This tricks the TikTok Ingest system into treating the video as a 120fps file.
+   - **COMBO_MAX**: Runs the `HQ_REENCODE` first for maximum quality compression, and then automatically injects the `FAST_TRICK` on the output. *(Highly Recommended)*
+3. **Execute**: Simply drag & drop your video into the application window. The app will process it automatically and display a real-time progress terminal.
 
-Setelah proses mencapai 100% dan muncul tulisan **✓ Selesai** (atau **✓ COMBO Selesai!**), Anda akan mendapatkan file video baru.
-1. File tersebut akan otomatis tersimpan di folder yang **sama persis** dengan lokasi video asli Anda.
-2. File output ini akan ditandai dengan tambahan akhiran `_shifted.mp4` (misalnya: `video_asli.mp4` akan menghasilkan `video_asli_shifted.mp4`).
-3. **PENTING**: Jika Anda memutar file `_shifted.mp4` ini di komputer atau HP Anda secara langsung menggunakan *video player* biasa, videonya mungkin akan terlihat patah-patah, *slow-motion*, atau durasinya menjadi bertambah panjang berkali lipat. **Ini adalah hal yang normal dan disengaja** karena trik framerate tinggi sedang aktif. 
+## What Happens After Processing?
 
-## Cara Upload ke TikTok
+Once the process reaches 100% and displays **✓ Selesai** (or **✓ COMBO Selesai!**), a new video file will be generated.
+1. The file will automatically be saved in the **exact same folder** as your original video.
+2. The output file will have a `_shifted.mp4` suffix added to it (e.g., `original_video.mp4` becomes `original_video_shifted.mp4`).
+3. **IMPORTANT NOTE**: If you play this `_shifted.mp4` file directly on your computer or phone using a standard media player, the video may appear stuttery, in slow-motion, or have an artificially extended duration. **This is completely normal and intentional** as the high-framerate metadata trick is actively applied.
 
-Untuk mendapatkan hasil yang benar-benar 60fps yang mulus dan jernih di TikTok:
-1. **WAJIB** menggunakan **Browser di PC/Laptop** (Google Chrome, Safari, atau Edge). Jangan menggunakan aplikasi TikTok di HP (Android/iPhone) untuk meng-upload file hasil olahan ini.
-2. Buka [tiktok.com](https://www.tiktok.com/) di browser PC dan login ke akun Anda.
-3. Klik tombol **Upload** di pojok kanan atas.
-4. Masukkan file `_shifted.mp4` yang dihasilkan dari aplikasi UNWANTED LAB.
-5. Tunggu hingga proses upload selesai dan ter-publish. Setelah dipublikasikan, sistem server TikTok akan memproses ulang video *slow-motion* tersebut sehingga videonya akan **kembali berjalan normal** dengan kualitas 60fps yang super jernih, baik diakses dari HP (iPhone/Android) maupun PC.
+## How to Upload to TikTok
+
+To achieve a perfectly smooth and crystal-clear 60fps result on TikTok:
+1. **MANDATORY**: You must use a **PC/Laptop Desktop Browser** (Google Chrome, Safari, or Edge). Do NOT use the TikTok mobile app (Android/iPhone) to upload this processed file.
+2. Go to [tiktok.com](https://www.tiktok.com/) on your PC browser and log into your account.
+3. Click the **Upload** button in the top right corner.
+4. Upload the `_shifted.mp4` file generated by the UNWANTED LAB app.
+5. Wait for the upload to complete and publish the video. Once published, TikTok's server system will reprocess the "slow-motion" file, and it will **automatically return to normal speed** with crystal-clear 60fps quality, perfectly viewable on both mobile devices and PCs.
 
 ---
 
-## Cara Compile / Build Aplikasi Sendiri
+## How to Compile / Build from Source
 
-Jika Anda ingin meng-compile (build) aplikasi ini sendiri dari *source code*, silakan ikuti langkah-langkah di bawah ini.
+If you want to compile and build this application yourself from the source code, please follow the steps below.
 
-### Persyaratan
-- Anda harus menginstal **Node.js** di komputer Anda. [Download Node.js di sini](https://nodejs.org/).
+### Requirements
+- You must have **Node.js** installed on your computer. [Download Node.js here](https://nodejs.org/).
 
-### Langkah-langkah
-1. **Clone Repositori ini:**
+### Build Steps
+1. **Clone this Repository:**
    ```bash
    git clone https://github.com/bagusmibr/unwantedlab.git
    cd unwantedlab
    ```
 
 2. **Install Dependencies:**
-   Jalankan perintah ini untuk mengunduh semua modul yang dibutuhkan (seperti Electron dan FFmpeg):
+   Run this command to download all required modules (such as Electron and FFmpeg):
    ```bash
    npm install
    ```
 
-3. **Jalankan Aplikasi (Mode Development):**
-   Untuk sekadar mengetes aplikasi tanpa mem-build-nya:
+3. **Run the App (Development Mode):**
+   To test the application without compiling it:
    ```bash
    npm start
    ```
 
-4. **Compile menjadi Aplikasi (Release Build):**
-   Jalankan salah satu perintah berikut sesuai dengan sistem operasi target Anda:
+4. **Compile the Application (Release Build):**
+   Run one of the following commands depending on your target operating system:
 
-   - Untuk membuat **Aplikasi Windows (`.exe`)**:
+   - To build the **Windows App (`.exe`)**:
      ```bash
      npm run build:win
      ```
-     *(Hasilnya akan ada di folder `dist/` dalam bentuk portable exe atau folder win-unpacked)*
+     *(The output will be inside the `dist/` folder as a portable executable or unpacked folder)*
 
-   - Untuk membuat **Aplikasi macOS (`.app`)**:
+   - To build the **macOS App (`.app`)**:
      ```bash
      npm run build:mac
      ```
-     *(Hasilnya akan ada di folder `dist/`)*
+     *(The output will be inside the `dist/` folder)*
 
 ---
 *Created by Bagus (Shifted) · MIBR*
