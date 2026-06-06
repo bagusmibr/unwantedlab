@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>UNWANTED LAB</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&display=swap">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- Scanlines overlay -->
+<div class="scanlines"></div>
+
+<!-- Titlebar -->
+<div id="titlebar">
+  <div id="titlebar-drag">
+    <span class="tb-prompt">root@unwanted-lab</span><span class="tb-sep">:</span><span class="tb-path">~</span><span class="tb-cursor">█</span>
+  </div>
+  <div id="titlebar-controls">
+    <button id="btn-min" title="Minimize">─</button>
+    <button id="btn-close" title="Close">✕</button>
+  </div>
+</div>
+
+<!-- App Shell -->
+<div id="app">
+
+  <!-- Header -->
+  <header>
+    <div class="header-top">
+      <div class="brand">
+        <span class="brand-un">UN</span><span class="brand-wanted">WANTED</span><span class="brand-lab"> LAB</span>
+      </div>
+      <div class="header-badges">
+        <span class="badge badge-ok">● ONLINE</span>
+        <span class="badge">v1.0</span>
+      </div>
+    </div>
+    <div class="header-sub">
+      <span class="prompt-char">$</span> TikTok HQ Video Processor · Native FFmpeg · Zero Upload
+    </div>
+  </header>
+
+  <!-- ═══ SCREEN: PICK ═══ -->
+  <div id="screen-pick" class="screen active">
+
+    <!-- Drop Zone -->
+    <div class="section-label">
+      <span class="prompt-char">→</span> INPUT_FILE
+    </div>
+    <div id="drop-zone" class="drop-zone">
+      <div class="dz-corner tl"></div>
+      <div class="dz-corner tr"></div>
+      <div class="dz-corner bl"></div>
+      <div class="dz-corner br"></div>
+      <div class="dz-inner">
+        <div class="dz-icon">
+          <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.5">
+            <rect x="2" y="2" width="28" height="28" rx="2"/>
+            <polyline points="10 16 16 10 22 16"/>
+            <line x1="16" y1="10" x2="16" y2="22"/>
+          </svg>
+        </div>
+        <div class="dz-title" id="dz-label">DROP_VIDEO_HERE</div>
+        <div class="dz-hint" id="dz-sub">atau <span class="link-text">klik untuk browse</span> · MP4 MOV MKV AVI</div>
+      </div>
+    </div>
+
+    <!-- Video Stats (hidden until file loaded) -->
+    <div id="info-panel" class="info-panel hidden">
+      <div class="section-label"><span class="prompt-char">→</span> SYS_INFO</div>
+      <div class="sysinfo-grid">
+        <div class="si-row">
+          <span class="si-key">FILE</span>
+          <span class="si-val" id="info-filename"></span>
+        </div>
+        <div class="si-row">
+          <span class="si-key">RES </span>
+          <span class="si-val" id="stat-res">—</span>
+        </div>
+        <div class="si-row">
+          <span class="si-key">FPS </span>
+          <span class="si-val" id="stat-fps">—</span>
+        </div>
+        <div class="si-row">
+          <span class="si-key">BRATE</span>
+          <span class="si-val" id="stat-br">—</span>
+        </div>
+        <div class="si-row">
+          <span class="si-key">SIZE </span>
+          <span class="si-val" id="stat-size">—</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Engine Info -->
+    <div class="section-label"><span class="prompt-char">→</span> ENGINE_PIPELINE</div>
+    <div class="engine-block">
+      <div class="eng-line"><span class="eng-ok">[OK]</span> <span class="eng-key">-itsscale 6</span> <span class="eng-desc"># 120fps timestamp trick</span></div>
+      <div class="eng-line" id="engine-hq-row">
+        <span class="eng-badge" id="engine-hq-badge">[OK]</span>
+        <span class="eng-key">libx264 -crf 18 -preset veryfast</span>
+        <span class="eng-desc"># HQ re-encode</span>
+      </div>
+      <div class="eng-line"><span class="eng-ok">[OK]</span> <span class="eng-key">-pix_fmt yuv420p -b:a 192k</span> <span class="eng-desc"># color + audio</span></div>
+      <div class="eng-line"><span class="eng-ok">[OK]</span> <span class="eng-key">-movflags +faststart</span> <span class="eng-desc"># moov atom shift</span></div>
+    </div>
+
+    <!-- Mode Selector -->
+    <div class="section-label"><span class="prompt-char">→</span> SELECT_MODE</div>
+    <div class="mode-row">
+      <button class="mode-btn selected" id="mode-hq" data-mode="hq">
+        <span class="mode-sel">[*]</span>
+        <span class="mode-name">HQ_REENCODE</span>
+        <span class="mode-desc">libx264 CRF18 · kualitas max</span>
+      </button>
+      <button class="mode-btn" id="mode-fast" data-mode="fast">
+        <span class="mode-sel">[ ]</span>
+        <span class="mode-name">FAST_TRICK</span>
+        <span class="mode-desc">-c copy · instan tanpa encode</span>
+      </button>
+      <button class="mode-btn" id="mode-combo" data-mode="combo">
+        <span class="mode-sel">[ ]</span>
+        <span class="mode-name">COMBO_MAX</span>
+        <span class="mode-desc">HQ_REENCODE + FAST_TRICK</span>
+      </button>
+    </div>
+
+    <!-- Process Button -->
+    <button id="btn-process" class="btn-process" disabled>
+      <span class="btn-prompt">root@unwanted-lab:~#</span>
+      <span class="btn-cmd">./process.sh</span>
+      <span class="btn-cursor blink">▌</span>
+    </button>
+
+    <!-- Credit -->
+    <div class="credit">
+      made by <span class="credit-name">Bagus (Shifted)</span> · <span class="credit-team">MIBR</span>
+    </div>
+
+  </div><!-- /screen-pick -->
+
+  <!-- ═══ SCREEN: PROCESSING ═══ -->
+  <div id="screen-processing" class="screen">
+
+    <div class="proc-header">
+      <div class="proc-title">
+        <span class="prompt-char">$</span> ffmpeg -itsscale 6 -i input.mp4 ...
+      </div>
+      <div class="proc-pct" id="proc-pct">0%</div>
+    </div>
+
+    <div class="progress-track">
+      <div class="progress-fill" id="progress-fill"></div>
+      <div class="progress-text" id="progress-text">ENCODING</div>
+    </div>
+
+    <div class="terminal-wrap">
+      <div class="terminal-bar">
+        <span class="tb-prompt">root@unwanted-lab</span><span class="tb-sep">:</span><span class="tb-path">~/process</span><span class="tb-sep"> $</span>
+      </div>
+      <div class="terminal-body" id="terminal-body">
+        <div class="log-line hi">&gt; UNWANTED LAB Engine Active</div>
+        <div class="log-line">&gt; Awaiting pipeline...</div>
+      </div>
+    </div>
+
+  </div><!-- /screen-processing -->
+
+  <!-- ═══ SCREEN: DONE ═══ -->
+  <div id="screen-done" class="screen">
+
+    <div class="done-header">
+      <div class="done-status">[ <span class="txt-ok">DONE</span> ]</div>
+      <div class="done-title">PAYLOAD_DELIVERED</div>
+      <div class="done-sub">Bitstream dioptimasi · Siap upload ke TikTok</div>
+    </div>
+
+    <div class="done-path-wrap">
+      <div class="si-row">
+        <span class="si-key">OUT </span>
+        <span class="si-val txt-ok" id="done-path"></span>
+      </div>
+    </div>
+
+    <div class="done-actions">
+      <button class="btn-action" id="btn-open-folder">
+        <span class="prompt-char">$</span> open ./output/
+      </button>
+      <button class="btn-action-sec" id="btn-reset">
+        <span class="prompt-char">$</span> ./new_process.sh
+      </button>
+    </div>
+
+    <div class="credit">
+      made by <span class="credit-name">Bagus (Shifted)</span> · <span class="credit-team">MIBR</span>
+    </div>
+
+  </div><!-- /screen-done -->
+
+  <!-- ═══ SCREEN: ERROR ═══ -->
+  <div id="screen-error" class="screen">
+    <div class="error-header">
+      <div class="error-status">[ <span class="txt-err">ERROR</span> ]</div>
+      <div class="error-title">PROCESS_FAILED</div>
+    </div>
+    <div class="error-msg-box">
+      <span class="prompt-char">!</span> <span id="error-msg"></span>
+    </div>
+    <button class="btn-action-sec" id="btn-error-reset">
+      <span class="prompt-char">$</span> ./retry.sh
+    </button>
+  </div>
+
+</div><!-- /app -->
+
+<script src="app.js"></script>
+</body>
+</html>
